@@ -1,4 +1,4 @@
-# Introducción
+# Introduction
 
 This course aims to help developers integrate an IoT device into the FIWARE platform. In this case the FIWARE IoT Agent modules will be used, which manage communication with Hardware devices, as well as other features (provisioning of devices, translation of protocol or parameters, etc.). In this specific case we will use the Ultralight 2.0 protocol in both the device and the IoT Agent.
 
