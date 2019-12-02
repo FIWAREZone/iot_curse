@@ -33,8 +33,8 @@ String FIWARE_port = "8085";
 String FIWARE_apikey = "REPLACE_APIKEY";
 
 //Wifi Variables
-const char* WiFi_Network = "WIFI_NAME";
-const char* WiFi_Password = "WIFI_PASS";
+const char* WiFi_Network = "FIWARE_Zone";
+const char* WiFi_Password = "fiwarezoneiot";
 
 const char* WiFi_SoftAP_Name = "FIWAREZone_IoT";
 const char* WiFi_SoftAP_WiFi_Name = "FIWAREZone_IoT_Wifi";
