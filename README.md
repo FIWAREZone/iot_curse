@@ -1,23 +1,13 @@
 # Introducción
 
-Este curso tiene el objetivo de ayudar a los desarrolladores a integrar un dispositivo IoT en la plataforma FIWARE. En este caso se usarán los módulos de FIWARE IoT Agent, que gestionan la comunicación con dispositivos Hardware, así como otra serie de características (aprovisionamiento de dispositivos, traducción de protocolo o parámetros, etc.). En este caso concreto emplearemos el protocolo Ultralight 2.0 tanto en el dispositvo como en el IoT Agent.
+This course aims to help developers integrate an IoT device into the FIWARE platform. In this case the FIWARE IoT Agent modules will be used, which manage communication with Hardware devices, as well as other features (provisioning of devices, translation of protocol or parameters, etc.). In this specific case we will use the Ultralight 2.0 protocol in both the device and the IoT Agent.
 
-La placa de desarrollo empleada será una placa NodeMCU basada en el SoC ESP8266, el cual dado su coste, capacidades y su comunidad, lo hace idóneo para este curso. 
-
-
-
-## Conocimientos previos
-
-Para la realización del curso es conveniente disponer de los siguientes conocimientos:
-* C/C++ - Para la programación del microcontrolador.
-* HTML - Para la interfaz creada por el microcontrolador.
-* API REST / HTTP - Para la comunicación con el servidor.
-* Electrónica básica - Para entender los conceptos y posibilidades de la placa.
+The development board used will be a NodeMCU board based on the SoC ESP8266, which given its cost, capabilities and community, makes it suitable for this course. 
 
 
 ## ESP8266
 
-Para la realización del curso se empleará una placa de desarrollo NodeMCU basada en el SoC ESP8266, que incluye un microcontrolador ARM de 32 bits así como la parte de radio WiFi.
+The course will use a NodeMCU development board based on the SoC ESP8266, which includes a 32-bit ARM microcontroller as well as the WiFi radio part.
 
 
 
@@ -25,41 +15,41 @@ Para la realización del curso se empleará una placa de desarrollo NodeMCU basa
 | -----------------|--------------:|
 | RAM              | 128KB         |
 | ROM              | 4MB*          |
-| Número de pines  | 13            |
-| Alimentación     | 3.3V          |
+| Pin count        | 13            |
+| Powering         | 3.3V          |
 
-*La ROM es externa, por lo que depende en concreto de la que tenga instalada la placa de desarrollo. En el caso de la placa NodeMCU es de 4MB.
+*The ROM is external, so it depends on the one that has installed the development plate. In the case of the NodeMCU board is 4MB.
 
 ![image alt text](doc/files/image_0.png)
 
-El módulo dispone de un regulador interno de 5V a 3.3V, por lo que se puede alimentar directamente del USB. En algunos casos es conveniente emplear un adaptador externo de corriente, dado que la corriente que da un PC por el puerto USB se encuentra limitada a 500mA.
+The module has an internal regulator from 5V to 3.3V, so it can be powered directly from USB. In some cases it is convenient to use an external power adapter, since the current given by a PC through the USB port is limited to 500mA.
 
-También dispone de un conversor de USB a USART a 3.3V, empleado para comunicarnos con el módulo y para cargar el firmware a través del bootloader que dispone.
+It also has a USB to USART 3.3V converter, used to communicate with the module and to load the firmware through the bootloader available.
 
 ## FIWARE
 
-El objetivo de este workshop es integrar un dispositivo físico en la plataforma FIWARE. Para ello haremos uso del protocolo Ultralight 2.0 y del IoT Agent correspondiente en el lado del servidor.
+The objective of this workshop is to integrate a physical device into the FIWARE platform. To do this we will use the Ultralight 2.0 protocol and the corresponding IoT Agent on the server side.
 
-Los IoT Agents son módulos que adaptan el protocolo concreto que utiliza el dispositivo (Ultralight 2.0, MQTT, etc.) con el protocolo que habla el Context Broker de FIWARE (NGSI).
+The IoT Agents are modules that adapt the specific protocol used by the device (Ultralight 2.0, MQTT, etc.) with the protocol spoken by the FIWARE Context Broker (NGSI).
 
 # Configuración del entorno
 
-En esta sección repasaremos como instalar y configurar los programas necesarios para desarrollar el curso. Será necesario tener instalados y configurados correctamente los siguientes elementos:
-* Drivers USB de la placa de desarrollo.
-* Entorno de desarrollo Arduino y las librerías necesarias.
-* Postman y la colección de peticiones de este repositorio.
+In this section we will review how to install and configure the necessary programs to develop the course. It will be necessary to have installed and configured correctly the following elements:
+* USB drivers of the development board.
+* Arduino development environment and the necessary libraries.
+* Postman and the collection of requests from this repository.
 
+## USB drivers installation
 
-## Instalación drivers USB
+It is necessary to install the drivers for the USB to USART to 3.3V converter included on the development board. In the market there are different manufacturers of this board that can integrate different integrated circuits that perform this function. In this case, we will have to install the corresponding driver. In any case, there is no type of incompatibility between them, being able to install both in unison. In the following image we can differentiate the two most extended models that of converter of USB to USART in the plates NodeMCU, that are the CH430G and the CP2102/3
 
-Es necesario instalar los drivers para el convertidor de USB a USART a 3.3V incluido en la placa de desarrollo. En el mercado existen distintos fabricantes de esta placa que pueden integrar distintos circuitos integrados que realizan esta función. En este caso, deberemos instalar el driver correspondiente. En cualquier caso, no existe ningún tipo de incompatibilidad entre ellos, puduiendose instalar ámbos al unísono. En la imagen a continuación podemos diferenciar los dos modelos más extendidos que de convertidor de USB a USART en las placas NodeMCU, que son el CH430G y el CP2102/3
 ![image alt text](doc/files/image_6.png)
 
-En el caso del chip CP2102/3, del fabricante SiLabs, podremos descargar los drivers para los distintos sistemas operativos desde la página web del fabricante:
+In the case of the CP2102/3 chip, from the SiLabs manufacturer, we will be able to download the drivers for the different operating systems from the manufacturer's website:
 
 [https://www.silabs.com/products/development-tools/software/usb-to-uart-bridge-vcp-drivers](https://www.silabs.com/products/development-tools/software/usb-to-uart-bridge-vcp-drivers)
 
-En el caso del chip CH430G, podremos descargar los driver desde la siguiente página web:
+In the case of the CH430G chip, we will be able to download the drivers from the following web page:
 
 [Windows](http://www.wch.cn/downloads/CH341SER_ZIP.html)
 
@@ -70,58 +60,52 @@ En el caso del chip CH430G, podremos descargar los driver desde la siguiente pá
 
 ### MAC OSX
 
-Para identificar que tenemos instalado correctamente los drivers del dispositivo, podremos ver en el informe del sistema (acerca de este mac) el dispositivo USB CP2102 USB to UART Bridge Controller o el correspondiente al CH430G
+To identify that we have correctly installed the drivers of the device, we can see in the system report (about this mac) the USB device CP2102 USB to UART Bridge Controller or the corresponding to CH430G
 
 ![image alt text](doc/files/image_1.png)
 
-En las últimas versiones de macOS es necesario habilitar el driver en el panel de control para que se ejecute. Para ello hay que ir a la sección de seguridad y privacidad y permitir la ejecución del software.
+In the latest versions of macOS it is necessary to enable the driver in the control panel for it to run. To do this, go to the security and privacy section and allow the software to run.
 
 ![image alt text](doc/files/image_2.png)
 
 ### Windows
 
-Tras descargar y ejecutar el instalador del driver provisto por el fabricante y, si fuera necesario, tras reiniciar el equipo nos debe aparecer algo similar a la siguiente imagen en el administrador de dispositivos (depende del controlador USB a UART):
+After downloading and running the driver installer provided by the manufacturer and, if necessary, after restarting the computer should appear something similar to the following image in the device manager (depends on the USB driver to UART):
 
 ![image alt text](doc/files/image_3.png)
 
-Una vez identificado, habrá que recordar el puerto COM para configurarlo en la aplicación arduino.
+Once identified, you will have to remember the COM port to configure it in the arduino application.
 
 ### Linux
 
-Generalmente, las últimas versiones del kernel de linux traen soporte nativo para este dispositivo. En caso contrario, seguir las instrucciones del fabricante para la distribución en concreto.
+Generally, the latest versions of the linux kernel bring native support for this device. Otherwise, follow the manufacturer's instructions for the particular distribution.
 
-## Configurando Arduino
+## Configuring Arduino
 
-Antes de nada, es necesario disponer del IDE de arduino. En caso que no se disponga ya, se puede descargar e instalar desde el siguiente enlace:
+First of all, you need the arduino IDE. If you don't already have it, you can download and install it from the following link:
 
 [https://www.arduino.cc/en/Main/Software](https://www.arduino.cc/en/Main/Software)
 
-### Instalar ESP8266 en arduino
+### Installing ESP8266 on arduino
 
-Lo primero que tenemos que añadir al repositorio de placas de desarrollo compatibles es el repositorio GitHub donde se encuentra todo el entorno de ESP8266. Para ello, hay que abrir las preferencias (Archivo -> Preferencias) y añadir una nueva URL al gestor de tarjetas tal y como se ve en la siguiente imagen:
+The first thing we need to add to the compatible development board repository is the GitHub repository where the entire ESP8266 environment is located. To do this, open the preferences (File -> Preferences) and add a new URL to the card manager as shown in the image below:
 
 [http://arduino.esp8266.com/stable/package_esp8266com_index.json](http://arduino.esp8266.com/stable/package_esp8266com_index.json)
 
 ![image alt text](doc/files/image_4.png)
 
-Una vez añadida le damos a OK y vamos al gestor de tarjetas (Herramientas -> placa-> Gestor de tarjetas). Allí deberemos buscar la nueva tarjeta o placa que hemos añadido, en este caso la ESP8266. Seleccionamos la versión y le damos a instalar. Esto llevará unos minutos mientras se descargan todas las utilidades y librerías.
+Once added, click OK and go to the card manager (Tools -> place-> Card manager). There we will have to look for the new card or plate that we have added, in this case the ESP8266. We select the version and we give him to install. This will take a few minutes while downloading all utilities and libraries.
 
 ![image alt text](doc/files/image_5.png)
 
-Ya sólo nos queda seleccionar la nueva tarjeta, en este caso la placa **NodeMCU V1.0** para que el sistema nos detecte la placa.
+Now we only have to select the new card, in this case the board **NodeMCU V1.0** so that the system detects the board.
 
-Además, deberemos configurar el puerto serie que está empleando el sistema. En el caso de Windows, deberemos seleccionar el puerto COM correspondiente (el que aparece en la sección de instalación del driver). En el caso de MacOS y Linux, deberemos seleccionar el dispositivo correspondiente con el formato /dev/* (dependiendo del sistema operativo)
+In addition, we will have to configure the serial port that the system is using. In the case of Windows, we will have to select the corresponding COM port (the one that appears in the driver installation section). In the case of MacOS and Linux, we should select the corresponding device with the format /dev/* (depending on the operating system).
 
-Antes de continuar, vamos a instalar unas librerías que van a facilitar el uso de la placa (buscar en Programa -> Incluir Librería -> Gestor de Librerías):
+Before we continue, we are going to install some libraries that will facilitate the use of the board (search in Program -> Include Library -> Library Manager):
+
 
 WiFiManager.h          - https://github.com/tzapu/WiFiManager
 
 ArduinoJson.h          - https://github.com/bblanchon/ArduinoJson
 
-## Instalación de Postman
-
-Para hacer pruebas con la API de FIWARE será necesario disponer de una herramienta que permita hacer peticiones HTTP e interactuar con ésta. En este caso, nosotros recomendamos la herramienta Postman, que permite gestionar las colecciones de peticiones, por lo que será muy sencillo realizar las operaciones necesarias con la colección predefinida que podréis descargar en este mismo repositorio.
-
-[Descargar](https://www.getpostman.com)
-
-[Configuración de postman](https://github.com/FIWAREZone/IoT_Course/tree/master/postman)

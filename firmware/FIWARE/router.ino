@@ -38,8 +38,8 @@ void handleWifi() {
   page += FPSTR(HTTP_HEAD_END);
   page += FPSTR(HTTP_REDIRECT_5S);
   page += F("<h1>FIWARE-WiFi</h1>");
-  page += F("<h3>Redirigiendo al panel de configuracion Wifi.</h3>");
-  page += F("Espere por favor a que se abra el panel de configuracion de redes wifi");
+  page += F("<h3>Redirecting to the Wifi configuration panel.</h3>");
+  page += F("Please wait for the wifi network configuration panel to open.");
   page += FPSTR(HTTP_END);
   server.send(200, "text/html", page);
 
@@ -67,8 +67,8 @@ void handleWrst() {
   page += FPSTR(HTTP_HEAD_END);
   page += FPSTR(HTTP_REDIRECT_5S);
   page += F("<h1>FIWARE-WiFi</h1>");
-  page += F("<h3>Borrando la configuracion wifi.</h3>");
-  page += F("El dispositivo se desconectara de la red, por favor conectese al la red creada por BasculaWifi para su configuracion.");
+  page += F("<h3>Deleting the wifi configuration.</h3>");
+  page += F("The device will be disconnected from the network, please connect to the network created by the device for configuration.");
   page += FPSTR(HTTP_END);
   server.send(200, "text/html", page);
     
@@ -95,7 +95,7 @@ void handleWebota(){
   page += FPSTR(HTTP_HEAD_END);
   page += F("<h1>FIWARE-WiFi</h1>");
   page += F("<h3>Help</h3>");
-  page += F("Aqui aparece la informacion que puede ser de ayuda.");
+  page += F("Here is information that may be helpful.");
   page += FPSTR(HTTP_BACK_BUTTON);
   page += FPSTR(HTTP_END);
   server.send(200, "text/html", page);
@@ -111,7 +111,7 @@ void handleHelp(){
   page += FPSTR(HTTP_HEAD_END);
   page += F("<h1>FIWARE-WiFi</h1>");
   page += F("<h3>Help</h3>");
-  page += F("Aqui aparece la informacion que puede ser de ayuda.");
+  page += F("Here is information that may be helpful.");
   page += FPSTR(HTTP_BACK_BUTTON);
   page += FPSTR(HTTP_END);
   server.send(200, "text/html", page);
@@ -157,17 +157,17 @@ void handlePostUL2data(){
       page += FPSTR(HTTP_SCRIPT);
       page += FPSTR(HTTP_STYLE);
       page += FPSTR(HTTP_HEAD_END);
-      page += F("<h1>Enviando datos a FIWARE</h1>");
+      page += F("<h1>Sending Data to FIWARE</h1>");
 
       //Parse response
       int returnCode = ultralightSend(FIWARE_server,FIWARE_port,FIWARE_apikey,FIWARE_device_ID,"t|"+tmp+"#h|"+rh);
       if (returnCode ==200){
-          page += F("<h3>Resultado</h3>");
-          page += F("La peticion se ha ejecutado correctamente");
+          page += F("<h3>Result</h3>");
+          page += F("The request has been executed correctly");
       }
       else{
-          page += F("<h3>Resultado</h3>");
-          page += F("Ha habido un error en la peticion");
+          page += F("<h3>Result</h3>");
+          page += F("There's been a mistake in the request");
           page += String(returnCode);
       }
   
